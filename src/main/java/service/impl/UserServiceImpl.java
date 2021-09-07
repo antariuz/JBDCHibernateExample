@@ -1,12 +1,18 @@
 package service.impl;
 
+import dao.UserDAO;
 import dao.impl.UserJDBCDAO;
 import model.User;
-import service.Service;
+import service.UserService;
 
 import java.util.List;
 
-public class UserService implements Service<User> {
+public class UserServiceImpl implements UserService {
+
+    private UserDAO userDAO;
+
+    public UserServiceImpl(UserDAO userDAO) {
+    }
 
     @Override
     public List<User> getAllUser() {

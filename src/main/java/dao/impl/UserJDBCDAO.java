@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.DAO;
+import dao.UserDAO;
 import connectivity.JDBC;
 import factory.UserFactory;
 import model.User;
@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserJDBCDAO implements DAO<User> {
+public class UserJDBCDAO implements UserDAO {
 
     private final Logger LOGGER = LogManager.getLogger(UserJDBCDAO.class.getName());
 

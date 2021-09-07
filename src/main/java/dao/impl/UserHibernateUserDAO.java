@@ -1,7 +1,7 @@
 package dao.impl;
 
 import connectivity.HibernateSession;
-import dao.DAO;
+import dao.UserDAO;
 import model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 import java.math.BigInteger;
 import java.util.List;
 
-public class UserHibernateDAO implements DAO<User> {
+public class UserHibernateUserDAO implements UserDAO {
 
     @Override
     public List<User> getAllUser() {

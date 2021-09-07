@@ -1,11 +1,12 @@
 package servlet;
 
+import dao.impl.UserJDBCDAO;
 import json.JSON;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.Service;
-import service.impl.UserService;
+import service.UserService;
+import service.impl.UserServiceImpl;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,10 +27,10 @@ public class Servlet extends HttpServlet {
 
         try (PrintWriter printWriter = resp.getWriter()) {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            Service<User> userService = new UserService();
+            UserService userService = new UserServiceImpl(new UserJDBCDAO());
             JSON<User> json = new JSON<>();
             resp.setContentType("text/html");
-            printWriter.write(json.toJSON(UserService.getAllUser()));
+            printWriter.write(json.toJSON(userService.getAllUser()));
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
