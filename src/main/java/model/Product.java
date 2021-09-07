@@ -1,9 +1,18 @@
 package model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id")
     private Long id;
+    @Column
     private String name;
+    @Column
     private Double price;
 
     public Product() {
@@ -32,5 +41,4 @@ public class Product {
     public void setPrice(Double price) {
         this.price = price;
     }
-
 }

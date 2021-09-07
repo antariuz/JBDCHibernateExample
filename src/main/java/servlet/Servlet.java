@@ -1,6 +1,6 @@
 package servlet;
 
-import dao.impl.UserJDBCDAO;
+import dao.impl.UserHibernateDAO;
 import json.JSON;
 import model.User;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +27,7 @@ public class Servlet extends HttpServlet {
 
         try (PrintWriter printWriter = resp.getWriter()) {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            UserService userService = new UserServiceImpl(new UserJDBCDAO());
+            UserService userService = new UserServiceImpl(new UserHibernateDAO());
             JSON<User> json = new JSON<>();
             resp.setContentType("text/html");
             printWriter.write(json.toJSON(userService.getAllUser()));

@@ -9,12 +9,12 @@ import org.hibernate.Transaction;
 import java.math.BigInteger;
 import java.util.List;
 
-public class UserHibernateUserDAO implements UserDAO {
+public class UserHibernateDAO implements UserDAO {
 
     @Override
     public List<User> getAllUser() {
         Session session = HibernateSession.getSessionFactory().openSession();
-        List<User> userList = session.createQuery("From User").list();
+        List<User> userList = (List<User>) session.createQuery("from User").list();
         session.close();
         return userList;
     }

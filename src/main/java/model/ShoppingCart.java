@@ -1,11 +1,20 @@
 package model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "shopping_cart")
 public class ShoppingCart {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "shopping_cart_id")
     private Long id;
-    private Long shoppingCartId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @Column(name = "created_date")
     private Date createdDate;
 
     public ShoppingCart() {
@@ -19,12 +28,12 @@ public class ShoppingCart {
         this.id = id;
     }
 
-    public Long getShoppingCartId() {
-        return shoppingCartId;
+    public User getUser() {
+        return user;
     }
 
-    public void setShoppingCartId(Long shoppingCartId) {
-        this.shoppingCartId = shoppingCartId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getCreatedDate() {

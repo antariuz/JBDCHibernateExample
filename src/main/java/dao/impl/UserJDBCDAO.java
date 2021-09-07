@@ -21,7 +21,7 @@ public class UserJDBCDAO implements UserDAO {
         UserFactory userFactory = UserFactory.getInstance();
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM user")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM public.user")) {
             list = userFactory.createVOUserList(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e);

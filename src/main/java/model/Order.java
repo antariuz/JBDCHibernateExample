@@ -1,13 +1,25 @@
 package model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
     private Long id;
-    private Long shoppingCardId;
-    private Long productId;
+    @JoinColumn(name = "user_id")
+    @ManyToOne
+    private User user;
+    @JoinColumn(name = "shopping_cart_id")
+    @ManyToOne
+    private ShoppingCart shoppingCart;
+    @Column(name = "created_date")
     private Date createdDate;
+    @Column
     private Status status;
 
     enum Status{
@@ -26,20 +38,20 @@ public class Order {
         this.id = id;
     }
 
-    public Long getShoppingCardId() {
-        return shoppingCardId;
+    public User getUser() {
+        return user;
     }
 
-    public void setShoppingCardId(Long shoppingCardId) {
-        this.shoppingCardId = shoppingCardId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getProductId() {
-        return productId;
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 
     public Date getCreatedDate() {
@@ -57,5 +69,4 @@ public class Order {
     public void setStatus(Status status) {
         this.status = status;
     }
-
 }

@@ -1,13 +1,25 @@
 package model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "cart_item")
 public class CartItem {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "cart_item_id")
     private Long id;
+    @Column
     private Integer quantity;
-    private Long shoppingCardId;
-    private Long productId;
+    @JoinColumn(name = "shopping_cart_id")
+    @ManyToOne
+    private ShoppingCart shoppingCart;
+    @JoinColumn(name = "product_id")
+    @ManyToOne
+    private Product product;
+    @Column
     private Date createdDate;
 
     public CartItem() {
@@ -29,20 +41,20 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public Long getShoppingCardId() {
-        return shoppingCardId;
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 
-    public void setShoppingCardId(Long shoppingCardId) {
-        this.shoppingCardId = shoppingCardId;
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Date getCreatedDate() {
@@ -52,5 +64,4 @@ public class CartItem {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
-
 }

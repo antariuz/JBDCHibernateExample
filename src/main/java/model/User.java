@@ -1,15 +1,21 @@
 package model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class User {
+@Table
+public class User implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
+    @Column
     private String name;
+    @Column
     private String surname;
+    @Column
     private String email;
 
     public User() {
