@@ -4,7 +4,8 @@ import connectivity.JDBC;
 import dao.ShoppingCartDAO;
 import factory.UserFactory;
 import model.ShoppingCart;
-import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class ShoppingCartJDBCImpl implements ShoppingCartDAO {
 
+    private final Logger LOGGER = LogManager.getLogger(ShoppingCartJDBCImpl.class.getName());
 
     @Override
     public List<ShoppingCartDAO> getAllShoppingCart() {
@@ -23,11 +25,11 @@ public class ShoppingCartJDBCImpl implements ShoppingCartDAO {
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM public.user")) {
-            list = userFactory.createVOUserList(resultSet);
+//            list = userFactory.createVOUserList(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e);
         }
-        return list;
+        return null;
     }
 
     @Override

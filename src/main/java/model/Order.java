@@ -9,7 +9,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_id")
+    @Column(name = "id")
     private Long id;
     @JoinColumn(name = "user_id")
     @ManyToOne

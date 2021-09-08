@@ -20,6 +20,7 @@ public class HibernateSession {
             try {
                 Configuration configuration = new Configuration().configure();
                 configuration.addAnnotatedClass(User.class);
+//                configuration.addResource("user.hbm.xml").configure();
 //                configuration.addAnnotatedClass(ShoppingCart.class);
 //                configuration.addAnnotatedClass(Product.class);
 //                configuration.addAnnotatedClass(Order.class);

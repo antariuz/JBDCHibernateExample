@@ -24,7 +24,7 @@ public enum ShoppingCartFactory {
         try(resultSet){
             while (resultSet.next()){
                 shoppingCart.setId(resultSet.getLong("shopping_cart_id"));
-                shoppingCart.setUser(resultSet.getLong("user_id"));
+//                shoppingCart.setUser(resultSet.getLong("user_id"));
                 shoppingCart.setCreatedDate(resultSet.getDate("created_date"));
             }
         } catch (SQLException e){

@@ -9,7 +9,7 @@ public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cart_item_id")
+    @Column(name = "id")
     private Long id;
     @Column
     private Integer quantity;
