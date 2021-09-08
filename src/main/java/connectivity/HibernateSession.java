@@ -1,6 +1,6 @@
 package connectivity;
 
-import model.User;
+import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -20,6 +20,10 @@ public class HibernateSession {
             try {
                 Configuration configuration = new Configuration().configure();
                 configuration.addAnnotatedClass(User.class);
+//                configuration.addAnnotatedClass(ShoppingCart.class);
+//                configuration.addAnnotatedClass(Product.class);
+//                configuration.addAnnotatedClass(Order.class);
+//                configuration.addAnnotatedClass(CartItem.class);
                 StandardServiceRegistryBuilder builder =
                         new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());

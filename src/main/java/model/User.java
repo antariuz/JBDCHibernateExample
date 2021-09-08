@@ -1,16 +1,13 @@
 package model;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table
-public class User implements Serializable {
+public class User extends AbstractIdentifiableObject {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
-    private Long id;
     @Column
     private String name;
     @Column
@@ -19,14 +16,6 @@ public class User implements Serializable {
     private String email;
 
     public User() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -53,4 +42,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
