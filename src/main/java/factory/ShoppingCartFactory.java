@@ -15,7 +15,7 @@ public enum ShoppingCartFactory {
     ShoppingCartFactory() {
     }
 
-    public final ShoppingCartFactory getInstance(){
+    public static ShoppingCartFactory getInstance(){
         return INSTANCE;
     }
 
