@@ -1,6 +1,7 @@
 package servlet;
 
 import dao.impl.UserHibernateDAO;
+import dao.impl.UserJDBCDAO;
 import json.JSON;
 import model.User;
 import org.apache.logging.log4j.LogManager;

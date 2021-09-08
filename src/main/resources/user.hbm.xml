@@ -6,7 +6,7 @@
 <hibernate-mapping package="model">
 
     <class name="User" table="user">
-        <id name="id" type="int" column="id" >
+        <id name="id" type="long" column="id" >
             <generator class="assigned" />
         </id>
 

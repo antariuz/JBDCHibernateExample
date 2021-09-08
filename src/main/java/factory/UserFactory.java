@@ -25,7 +25,7 @@ public enum UserFactory {
         User user = new User();
         try (resultSet) {
             while (resultSet.next()) {
-                user.setId(resultSet.getLong("user_id"));
+                user.setId(resultSet.getLong("id"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setEmail(resultSet.getString("email"));
@@ -41,7 +41,7 @@ public enum UserFactory {
         try (resultSet) {
             while (resultSet.next()) {
                 User user = new User();
-                user.setId(resultSet.getLong("user_id"));
+                user.setId(resultSet.getLong("id"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setEmail(resultSet.getString("email"));
