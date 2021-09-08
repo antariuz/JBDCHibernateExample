@@ -56,7 +56,7 @@ public class UserJDBCDAO implements UserDAO {
         try (Connection connection = new JDBC().getConnection();
              Statement statement =
                      connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM person WHERE person_id='" + id + "'")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM user WHERE id ='" + id + "'")) {
             user = userFactory.createUserVO(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -68,7 +68,7 @@ public class UserJDBCDAO implements UserDAO {
     public void updateUser(User user) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("update person set name = ?, surname = ?, email = ? where person_id = ?")) {
+                     connection.prepareStatement("update user set name = ?, surname = ?, email = ? where id = ?")) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getSurname());
             preparedStatement.setString(3, user.getEmail());
@@ -84,7 +84,7 @@ public class UserJDBCDAO implements UserDAO {
         try (Connection connection = new JDBC().getConnection();
              Statement statement =
                      connection.createStatement()) {
-            statement.executeQuery("DELETE FROM person WHERE person_id='" + id + "'");
+            statement.executeQuery("DELETE FROM user WHERE id ='" + id + "'");
         } catch (SQLException e) {
             LOGGER.error(e);
         }
