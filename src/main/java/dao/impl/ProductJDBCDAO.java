@@ -1,9 +1,9 @@
 package dao.impl;
 
 import connectivity.JDBC;
-import dao.UserDAO;
-import factory.UserFactory;
-import model.User;
+import dao.ProductDAO;
+import factory.ProductFactory;
+import model.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,17 +11,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserJDBCDAO implements UserDAO {
+public class ProductJDBCDAO implements ProductDAO {
 
-    private final Logger LOGGER = LogManager.getLogger(UserJDBCDAO.class.getName());
+    private final Logger LOGGER = LogManager.getLogger(ProductJDBCDAO.class.getName());
 
     @Override
-    public List<User> getAllUser() {
-        List<User> list = new ArrayList<>();
+    public List<Product> getAllProduct() {
+        List<Product> list = new ArrayList<>();
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM user")) {
-            list = UserFactory.getInstance().createVOUserList(resultSet);
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM product")) {
+            list = ProductFactory.getInstance().createVOProductList(resultSet);
         } catch (SQLException | NullPointerException e) {
             LOGGER.error(e);
         }
@@ -29,15 +29,14 @@ public class UserJDBCDAO implements UserDAO {
     }
 
     @Override
-    public Long addUser(User user) {
+    public Long addProduct(Product product) {
         Long id = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO user (name, surname, email) VALUES(?,?,?)",
+                     connection.prepareStatement("INSERT INTO product (name, price) VALUES(?,?)",
                              PreparedStatement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getSurname());
-            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setDouble(2, product.getPrice());
             preparedStatement.execute();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 id = resultSet.next() ? resultSet.getLong(1) : null;
@@ -49,28 +48,27 @@ public class UserJDBCDAO implements UserDAO {
     }
 
     @Override
-    public User getUserById(Long id) {
-        User user = null;
+    public Product getProductById(Long id) {
+        Product product = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM user WHERE id = ?")) {
+                     connection.prepareStatement("SELECT * FROM product WHERE id = ?")) {
             preparedStatement.setLong(1, id);
-            user = UserFactory.getInstance().createUserVO(preparedStatement.executeQuery());
+            product = ProductFactory.getInstance().createProductVO(preparedStatement.executeQuery());
         } catch (SQLException | NullPointerException e) {
             LOGGER.error(e);
         }
-        return user;
+        return product;
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateProduct(Product product) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("UPDATE user SET name = ?, surname = ?, email = ? WHERE id = ?")) {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getSurname());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setLong(4, user.getId());
+                     connection.prepareStatement("UPDATE product SET name = ?, price = ? WHERE id = ?")) {
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setLong(4, product.getId());
             preparedStatement.execute();
         } catch (SQLException | NullPointerException e) {
             LOGGER.error(e);
@@ -78,10 +76,10 @@ public class UserJDBCDAO implements UserDAO {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteProductById(Long id) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM user WHERE id = ?")) {
+                     connection.prepareStatement("DELETE FROM product WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException | NullPointerException e) {

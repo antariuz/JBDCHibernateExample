@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum ShoppingCartFactory {
     INSTANCE;
@@ -15,24 +17,38 @@ public enum ShoppingCartFactory {
     ShoppingCartFactory() {
     }
 
-    public static ShoppingCartFactory getInstance(){
+    public static ShoppingCartFactory getInstance() {
         return INSTANCE;
     }
 
-    public ShoppingCartFactory createShoppingCartVO(ResultSet resultSet){
+    public ShoppingCart createShoppingCartVO(ResultSet resultSet) {
         ShoppingCart shoppingCart = new ShoppingCart();
-        try(resultSet){
-            while (resultSet.next()){
-                shoppingCart.setId(resultSet.getLong("shopping_cart_id"));
-//                shoppingCart.setUser(resultSet.getLong("user_id"));
+        try (resultSet) {
+            while (resultSet.next()) {
+                shoppingCart.setId(resultSet.getLong("id"));
+                shoppingCart.setUserId(resultSet.getLong("user_id"));
                 shoppingCart.setCreatedDate(resultSet.getDate("created_date"));
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
+        return shoppingCart;
+    }
 
-
-        return null;
+    public List<ShoppingCart> createVOShoppingCartList(ResultSet resultSet) {
+        List<ShoppingCart> list = new ArrayList<>();
+        try (resultSet) {
+            while (resultSet.next()) {
+                ShoppingCart shoppingCart = new ShoppingCart();
+                shoppingCart.setId(resultSet.getLong("id"));
+                shoppingCart.setUserId(resultSet.getLong("user_id"));
+                shoppingCart.setCreatedDate(resultSet.getDate("created_date"));
+                list.add(shoppingCart);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        }
+        return list;
     }
 
 }

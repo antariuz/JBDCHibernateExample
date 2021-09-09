@@ -1,16 +1,17 @@
-package dao;
+package service;
 
 import model.ShoppingCart;
+import model.User;
 
 import java.util.List;
 
-public interface ShoppingCartDAO {
+public interface ShoppingCartService {
 
     List<ShoppingCart> getAllShoppingCart();
 
     Long addShoppingCart(ShoppingCart shoppingCart);
 
-    ShoppingCart getShoppingCartById(Long id);
+    ShoppingCart getUserById(Long id);
 
     void updateShoppingCart(ShoppingCart shoppingCart);
 

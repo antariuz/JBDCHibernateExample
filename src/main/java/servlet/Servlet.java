@@ -1,13 +1,12 @@
 package servlet;
 
-import dao.impl.UserHibernateDAO;
-import dao.impl.UserJDBCDAO;
+import dao.impl.*;
 import json.JSON;
-import model.User;
+import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.UserService;
-import service.impl.UserServiceImpl;
+import service.*;
+import service.impl.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,10 +27,22 @@ public class Servlet extends HttpServlet {
 
         try (PrintWriter printWriter = resp.getWriter()) {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            UserService userService = new UserServiceImpl(new UserHibernateDAO());
-            JSON<User> json = new JSON<>();
+            UserService userService = new UserServiceImpl(new UserJDBCDAO());
+            ShoppingCartService shoppingCartService = new ShoppingCartServiceImpl(new ShoppingCartJDBCDAO());
+            ProductService productService = new ProductServiceImpl(new ProductJDBCDAO());
+            OrderService orderService = new OrderServiceImpl(new OrderJDBCDAO());
+            CartItemService cartItemService = new CartItemServiceImpl(new CartItemJDBCDAO());
+            JSON<User> jsonUser = new JSON<>();
+            JSON<ShoppingCart> jsonShoppingCart = new JSON<>();
+            JSON<Product> jsonProduct = new JSON<>();
+            JSON<Order> jsonOrder = new JSON<>();
+            JSON<CartItem> jsonCartItem = new JSON<>();
             resp.setContentType("text/html");
-            printWriter.write(json.toJSON(userService.getAllUser()));
+            printWriter.write(jsonUser.toJSON(userService.getAllUser()) + "<p>");
+            printWriter.write(jsonShoppingCart.toJSON(shoppingCartService.getAllShoppingCart()) + "<p>");
+            printWriter.write(jsonProduct.toJSON(productService.getAllProduct()) + "<p>");
+            printWriter.write(jsonOrder.toJSON(orderService.getAllOrder()) + "<p>");
+            printWriter.write(jsonCartItem.toJSON(cartItemService.getAllCartItem()) + "<p>");
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }

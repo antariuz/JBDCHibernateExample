@@ -16,9 +16,13 @@ public class CartItem {
     @JoinColumn(name = "shopping_cart_id")
     @ManyToOne
     private ShoppingCart shoppingCart;
+    @Column(name = "shopping_cart_id")
+    private Long shoppingCartId;
     @JoinColumn(name = "product_id")
     @ManyToOne
     private Product product;
+    @Column(name = "product_id")
+    private Long productId;
     @Column
     private Date createdDate;
 
@@ -49,12 +53,28 @@ public class CartItem {
         this.shoppingCart = shoppingCart;
     }
 
+    public Long getShoppingCartId() {
+        return shoppingCartId;
+    }
+
+    public void setShoppingCartId(Long shoppingCartId) {
+        this.shoppingCartId = shoppingCartId;
+    }
+
     public Product getProduct() {
         return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Date getCreatedDate() {
@@ -64,4 +84,18 @@ public class CartItem {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", shoppingCart=" + shoppingCart +
+                ", shoppingCartId=" + shoppingCartId +
+                ", product=" + product +
+                ", productId=" + productId +
+                ", createdDate=" + createdDate +
+                '}';
+    }
+
 }

@@ -1,9 +1,9 @@
 package dao.impl;
 
 import connectivity.JDBC;
-import dao.UserDAO;
-import factory.UserFactory;
-import model.User;
+import dao.ShoppingCartDAO;
+import factory.ShoppingCartFactory;
+import model.ShoppingCart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,17 +11,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserJDBCDAO implements UserDAO {
+public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
 
-    private final Logger LOGGER = LogManager.getLogger(UserJDBCDAO.class.getName());
+    private final Logger LOGGER = LogManager.getLogger(ShoppingCartJDBCDAO.class.getName());
 
     @Override
-    public List<User> getAllUser() {
-        List<User> list = new ArrayList<>();
+    public List<ShoppingCart> getAllShoppingCart() {
+        List<ShoppingCart> list = new ArrayList<>();
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM user")) {
-            list = UserFactory.getInstance().createVOUserList(resultSet);
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM shopping_cart")) {
+            list = ShoppingCartFactory.getInstance().createVOShoppingCartList(resultSet);
         } catch (SQLException | NullPointerException e) {
             LOGGER.error(e);
         }
@@ -29,15 +29,14 @@ public class UserJDBCDAO implements UserDAO {
     }
 
     @Override
-    public Long addUser(User user) {
+    public Long addShoppingCart(ShoppingCart shoppingCart) {
         Long id = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO user (name, surname, email) VALUES(?,?,?)",
+                     connection.prepareStatement("INSERT INTO shopping_cart (user_id, created_date) VALUES(?,?)",
                              PreparedStatement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getSurname());
-            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setLong(1, shoppingCart.getUserId());
+            preparedStatement.setDate(2, (Date) shoppingCart.getCreatedDate());
             preparedStatement.execute();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 id = resultSet.next() ? resultSet.getLong(1) : null;
@@ -49,28 +48,28 @@ public class UserJDBCDAO implements UserDAO {
     }
 
     @Override
-    public User getUserById(Long id) {
-        User user = null;
+    public ShoppingCart getShoppingCartById(Long id) {
+        ShoppingCart shoppingCart = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM user WHERE id = ?")) {
+                     connection.prepareStatement("SELECT * FROM shopping_cart WHERE id = ?")) {
             preparedStatement.setLong(1, id);
-            user = UserFactory.getInstance().createUserVO(preparedStatement.executeQuery());
+            shoppingCart = ShoppingCartFactory.getInstance().
+                    createShoppingCartVO(preparedStatement.executeQuery());
         } catch (SQLException | NullPointerException e) {
             LOGGER.error(e);
         }
-        return user;
+        return shoppingCart;
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateShoppingCart(ShoppingCart shoppingCart) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("UPDATE user SET name = ?, surname = ?, email = ? WHERE id = ?")) {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getSurname());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setLong(4, user.getId());
+                     connection.prepareStatement("UPDATE shopping_cart SET user_id = ?, created_date = ? WHERE id = ?")) {
+            preparedStatement.setLong(1, shoppingCart.getUserId());
+            preparedStatement.setDate(2, (Date) shoppingCart.getCreatedDate());
+            preparedStatement.setLong(3, shoppingCart.getId());
             preparedStatement.execute();
         } catch (SQLException | NullPointerException e) {
             LOGGER.error(e);
@@ -78,15 +77,13 @@ public class UserJDBCDAO implements UserDAO {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteShoppingCartById(Long id) {
         try (Connection connection = new JDBC().getConnection();
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM user WHERE id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM shopping_cart WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException | NullPointerException e) {
             LOGGER.error(e);
         }
     }
-
 }

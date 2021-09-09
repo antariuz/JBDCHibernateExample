@@ -1,29 +1,29 @@
 package dao.impl;
 
 import connectivity.HibernateSession;
-import dao.UserDAO;
-import model.User;
+import dao.ProductDAO;
+import model.Product;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.math.BigInteger;
 import java.util.List;
 
-public class UserHibernateDAO implements UserDAO {
+public class ProductHibernateDAO implements ProductDAO {
 
     @Override
-    public List<User> getAllUser() {
+    public List<Product> getAllProduct() {
         Session session = HibernateSession.getSessionFactory().openSession();
-        List<User> userList = (List<User>) session.createQuery("from User").list();
+        List<Product> productList = (List<Product>) session.createQuery("from Product").list();
         session.close();
-        return userList;
+        return productList;
     }
 
     @Override
-    public Long addUser(User user) {
+    public Long addProduct(Product product) {
         Session session = HibernateSession.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(user);
+        session.save(product);
         transaction.commit();
         Long lastId = ((BigInteger) session.createSQLQuery("SELECT LASTVAL()").uniqueResult()).longValue();
         session.close();
@@ -31,24 +31,24 @@ public class UserHibernateDAO implements UserDAO {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public Product getProductById(Long id) {
         Session session = HibernateSession.getSessionFactory().openSession();
-        User user = session.get(User.class, id);
+        Product product = session.get(Product.class, id);
         session.close();
-        return user;
+        return product;
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateProduct(Product product) {
         Session session = HibernateSession.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.update(user);
+        session.update(product);
         transaction.commit();
         session.close();
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteProductById(Long id) {
         Session session = HibernateSession.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(id);

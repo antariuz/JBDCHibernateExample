@@ -48,4 +48,5 @@ public class User extends AbstractIdentifiableObject {
                 ", email='" + email + '\'' +
                 '}';
     }
+
 }

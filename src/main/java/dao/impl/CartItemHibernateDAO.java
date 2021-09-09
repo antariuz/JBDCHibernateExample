@@ -1,29 +1,30 @@
 package dao.impl;
 
 import connectivity.HibernateSession;
-import dao.UserDAO;
-import model.User;
+import dao.CartItemDAO;
+import model.CartItem;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.math.BigInteger;
 import java.util.List;
 
-public class UserHibernateDAO implements UserDAO {
+public class CartItemHibernateDAO implements CartItemDAO {
 
     @Override
-    public List<User> getAllUser() {
+    public List<CartItem> getAllCartItem() {
         Session session = HibernateSession.getSessionFactory().openSession();
-        List<User> userList = (List<User>) session.createQuery("from User").list();
+        List<CartItem> cartItemList =
+                (List<CartItem>) session.createQuery("FROM CartItem").list();
         session.close();
-        return userList;
+        return cartItemList;
     }
 
     @Override
-    public Long addUser(User user) {
+    public Long addCartItem(CartItem cartItem) {
         Session session = HibernateSession.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(user);
+        session.save(cartItem);
         transaction.commit();
         Long lastId = ((BigInteger) session.createSQLQuery("SELECT LASTVAL()").uniqueResult()).longValue();
         session.close();
@@ -31,28 +32,29 @@ public class UserHibernateDAO implements UserDAO {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public CartItem getCartItemById(Long id) {
         Session session = HibernateSession.getSessionFactory().openSession();
-        User user = session.get(User.class, id);
+        CartItem cartItem = session.get(CartItem.class, id);
         session.close();
-        return user;
+        return cartItem;
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateCartItem(CartItem cartItem) {
         Session session = HibernateSession.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.update(user);
+        session.update(cartItem);
         transaction.commit();
         session.close();
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteCartItemById(Long id) {
         Session session = HibernateSession.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(id);
         transaction.commit();
         session.close();
     }
+
 }
