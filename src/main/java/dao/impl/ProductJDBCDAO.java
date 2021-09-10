@@ -22,7 +22,7 @@ public class ProductJDBCDAO implements ProductDAO {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM product")) {
             list = ProductFactory.getInstance().createVOProductList(resultSet);
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return list;
@@ -41,7 +41,7 @@ public class ProductJDBCDAO implements ProductDAO {
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 id = resultSet.next() ? resultSet.getLong(1) : null;
             }
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return id;
@@ -55,7 +55,7 @@ public class ProductJDBCDAO implements ProductDAO {
                      connection.prepareStatement("SELECT * FROM product WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             product = ProductFactory.getInstance().createProductVO(preparedStatement.executeQuery());
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return product;
@@ -70,7 +70,7 @@ public class ProductJDBCDAO implements ProductDAO {
             preparedStatement.setDouble(2, product.getPrice());
             preparedStatement.setLong(4, product.getId());
             preparedStatement.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
     }
@@ -82,7 +82,7 @@ public class ProductJDBCDAO implements ProductDAO {
                      connection.prepareStatement("DELETE FROM product WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
     }

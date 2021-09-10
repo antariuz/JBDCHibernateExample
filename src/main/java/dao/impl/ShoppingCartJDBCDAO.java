@@ -22,7 +22,7 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM shopping_cart")) {
             list = ShoppingCartFactory.getInstance().createVOShoppingCartList(resultSet);
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return list;
@@ -41,7 +41,7 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 id = resultSet.next() ? resultSet.getLong(1) : null;
             }
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return id;
@@ -56,7 +56,7 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
             preparedStatement.setLong(1, id);
             shoppingCart = ShoppingCartFactory.getInstance().
                     createShoppingCartVO(preparedStatement.executeQuery());
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return shoppingCart;
@@ -71,7 +71,7 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
             preparedStatement.setDate(2, (Date) shoppingCart.getCreatedDate());
             preparedStatement.setLong(3, shoppingCart.getId());
             preparedStatement.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
     }
@@ -82,7 +82,7 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM shopping_cart WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
     }

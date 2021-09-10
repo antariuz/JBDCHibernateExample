@@ -22,7 +22,7 @@ public class UserJDBCDAO implements UserDAO {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM user")) {
             list = UserFactory.getInstance().createVOUserList(resultSet);
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return list;
@@ -42,7 +42,7 @@ public class UserJDBCDAO implements UserDAO {
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 id = resultSet.next() ? resultSet.getLong(1) : null;
             }
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return id;
@@ -56,7 +56,7 @@ public class UserJDBCDAO implements UserDAO {
                      connection.prepareStatement("SELECT * FROM user WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             user = UserFactory.getInstance().createUserVO(preparedStatement.executeQuery());
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return user;
@@ -72,7 +72,7 @@ public class UserJDBCDAO implements UserDAO {
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setLong(4, user.getId());
             preparedStatement.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
     }
@@ -84,7 +84,7 @@ public class UserJDBCDAO implements UserDAO {
                      connection.prepareStatement("DELETE FROM user WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
     }

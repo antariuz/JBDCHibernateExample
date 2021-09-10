@@ -22,7 +22,7 @@ public class OrderJDBCDAO implements OrderDAO {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM order")) {
             list = OrderFactory.getInstance().createVOOrderList(resultSet);
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return list;
@@ -44,7 +44,7 @@ public class OrderJDBCDAO implements OrderDAO {
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 id = resultSet.next() ? resultSet.getLong(1) : null;
             }
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return id;
@@ -59,7 +59,7 @@ public class OrderJDBCDAO implements OrderDAO {
             preparedStatement.setLong(1, id);
             order = OrderFactory.getInstance().
                     createOrderVO(preparedStatement.executeQuery());
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return order;
@@ -77,7 +77,7 @@ public class OrderJDBCDAO implements OrderDAO {
             preparedStatement.setDate(3, (Date) order.getCreatedDate());
             preparedStatement.setString(4, order.getStatus().toString());
             preparedStatement.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
     }
@@ -88,7 +88,7 @@ public class OrderJDBCDAO implements OrderDAO {
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM order WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
     }

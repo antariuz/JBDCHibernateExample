@@ -12,8 +12,6 @@ import java.util.List;
 public enum CartItemFactory {
     INSTANCE;
 
-    private final Logger LOGGER = LogManager.getLogger(CartItemFactory.class.getName());
-
     CartItemFactory() {
     }
 
@@ -21,36 +19,28 @@ public enum CartItemFactory {
         return INSTANCE;
     }
 
-    public CartItem createCartItemVO(ResultSet resultSet) {
+    public CartItem createCartItemVO(ResultSet resultSet) throws SQLException {
         CartItem cartItem = new CartItem();
-        try (resultSet) {
-            while (resultSet.next()) {
-                cartItem.setId(resultSet.getLong("id"));
-                cartItem.setQuantity(resultSet.getInt("quantity"));
-                cartItem.setShoppingCartId(resultSet.getLong("shopping_cart_id"));
-                cartItem.setProductId(resultSet.getLong("product_id"));
-                cartItem.setCreatedDate(resultSet.getDate("created_date"));
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e);
+        if (resultSet.next()) {
+            cartItem.setId(resultSet.getLong("id"));
+            cartItem.setQuantity(resultSet.getInt("quantity"));
+            cartItem.setShoppingCartId(resultSet.getLong("shopping_cart_id"));
+            cartItem.setProductId(resultSet.getLong("product_id"));
+            cartItem.setCreatedDate(resultSet.getDate("created_date"));
         }
         return cartItem;
     }
 
-    public List<CartItem> createVOCartItemList(ResultSet resultSet) {
+    public List<CartItem> createVOCartItemList(ResultSet resultSet) throws SQLException {
         List<CartItem> list = new ArrayList<>();
-        try (resultSet) {
-            while (resultSet.next()) {
-                CartItem cartItem = new CartItem();
-                cartItem.setId(resultSet.getLong("id"));
-                cartItem.setQuantity(resultSet.getInt("quantity"));
-                cartItem.setShoppingCartId(resultSet.getLong("shopping_cart_id"));
-                cartItem.setProductId(resultSet.getLong("product_id"));
-                cartItem.setCreatedDate(resultSet.getDate("created_date"));
-                list.add(cartItem);
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e);
+        while (resultSet.next()) {
+            CartItem cartItem = new CartItem();
+            cartItem.setId(resultSet.getLong("id"));
+            cartItem.setQuantity(resultSet.getInt("quantity"));
+            cartItem.setShoppingCartId(resultSet.getLong("shopping_cart_id"));
+            cartItem.setProductId(resultSet.getLong("product_id"));
+            cartItem.setCreatedDate(resultSet.getDate("created_date"));
+            list.add(cartItem);
         }
         return list;
     }

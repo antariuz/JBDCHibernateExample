@@ -20,10 +20,10 @@ public class HibernateSession {
             try {
                 Configuration configuration = new Configuration();
                 configuration.addAnnotatedClass(User.class).configure();
-                configuration.addAnnotatedClass(ShoppingCart.class);
-                configuration.addAnnotatedClass(Product.class);
-                configuration.addAnnotatedClass(Order.class);
-                configuration.addAnnotatedClass(CartItem.class).configure();
+//                configuration.addAnnotatedClass(ShoppingCart.class);
+//                configuration.addAnnotatedClass(Product.class);
+//                configuration.addAnnotatedClass(Order.class);
+//                configuration.addAnnotatedClass(CartItem.class);
 //                configuration.addResource("user.hbm.xml").configure();
                 StandardServiceRegistryBuilder builder =
                         new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());

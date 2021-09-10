@@ -1,8 +1,6 @@
 package factory;
 
 import model.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +10,6 @@ import java.util.List;
 public enum UserFactory {
     INSTANCE;
 
-    private final Logger LOGGER = LogManager.getLogger(UserFactory.class.getName());
-
     UserFactory() {
     }
 
@@ -21,37 +17,28 @@ public enum UserFactory {
         return INSTANCE;
     }
 
-    public User createUserVO(ResultSet resultSet) {
+    public User createUserVO(ResultSet resultSet) throws SQLException {
         User user = new User();
-        try (resultSet) {
-            while (resultSet.next()) {
-                user.setId(resultSet.getLong("id"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setEmail(resultSet.getString("email"));
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e);
+        if (resultSet.next()) {
+            user.setId(resultSet.getLong("id"));
+            user.setName(resultSet.getString("name"));
+            user.setSurname(resultSet.getString("surname"));
+            user.setEmail(resultSet.getString("email"));
         }
         return user;
     }
 
-    public List<User> createVOUserList(ResultSet resultSet) {
+    public List<User> createVOUserList(ResultSet resultSet) throws SQLException {
         List<User> list = new ArrayList<>();
-        try (resultSet) {
-            while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setEmail(resultSet.getString("email"));
-                list.add(user);
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e);
+        while (resultSet.next()) {
+            User user = new User();
+            user.setId(resultSet.getLong("id"));
+            user.setName(resultSet.getString("name"));
+            user.setSurname(resultSet.getString("surname"));
+            user.setEmail(resultSet.getString("email"));
+            list.add(user);
         }
         return list;
     }
-
 
 }
