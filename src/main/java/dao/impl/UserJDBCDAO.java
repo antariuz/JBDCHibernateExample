@@ -20,7 +20,7 @@ public class UserJDBCDAO implements UserDAO {
         List<User> list = new ArrayList<>();
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM user")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM public.user")) {
             list = UserFactory.getInstance().createVOUserList(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -33,7 +33,7 @@ public class UserJDBCDAO implements UserDAO {
         Long id = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO user (name, surname, email) VALUES(?,?,?)",
+                     connection.prepareStatement("INSERT INTO public.user (name, surname, email) VALUES(?,?,?)",
                              PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getSurname());
@@ -53,7 +53,7 @@ public class UserJDBCDAO implements UserDAO {
         User user = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM user WHERE id = ?")) {
+                     connection.prepareStatement("SELECT * FROM public.user WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             user = UserFactory.getInstance().createUserVO(preparedStatement.executeQuery());
         } catch (SQLException e) {
@@ -66,7 +66,7 @@ public class UserJDBCDAO implements UserDAO {
     public void updateUser(User user) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("UPDATE user SET name = ?, surname = ?, email = ? WHERE id = ?")) {
+                     connection.prepareStatement("UPDATE public.user SET name = ?, surname = ?, email = ? WHERE id = ?")) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getSurname());
             preparedStatement.setString(3, user.getEmail());
@@ -81,7 +81,7 @@ public class UserJDBCDAO implements UserDAO {
     public void deleteUserById(Long id) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM user WHERE id = ?")) {
+                     connection.prepareStatement("DELETE FROM public.user WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

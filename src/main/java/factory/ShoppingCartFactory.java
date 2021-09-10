@@ -21,7 +21,7 @@ public enum ShoppingCartFactory {
         ShoppingCart shoppingCart = new ShoppingCart();
         if (resultSet.next()) {
             shoppingCart.setId(resultSet.getLong("id"));
-            shoppingCart.setUserId(resultSet.getLong("user_id"));
+//            shoppingCart.setUserId(resultSet.getLong("user_id"));
             shoppingCart.setCreatedDate(resultSet.getDate("created_date"));
         }
         return shoppingCart;
@@ -32,7 +32,7 @@ public enum ShoppingCartFactory {
         while (resultSet.next()) {
             ShoppingCart shoppingCart = new ShoppingCart();
             shoppingCart.setId(resultSet.getLong("id"));
-            shoppingCart.setUserId(resultSet.getLong("user_id"));
+//            shoppingCart.setUserId(resultSet.getLong("user_id"));
             shoppingCart.setCreatedDate(resultSet.getDate("created_date"));
             list.add(shoppingCart);
         }

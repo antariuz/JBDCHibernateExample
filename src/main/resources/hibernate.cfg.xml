@@ -16,6 +16,10 @@
         <property name="format_sql">true</property>
 
         <mapping class="model.User"/>
+        <mapping class="model.ShoppingCart"/>
+        <mapping class="model.Product"/>
+        <mapping class="model.Order"/>
+        <mapping class="model.CartItem"/>
 
     </session-factory>
 </hibernate-configuration>

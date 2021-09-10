@@ -3,7 +3,7 @@ package model;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(schema = "public")
 public class User extends AbstractIdentifiableObject {
 
     @Column

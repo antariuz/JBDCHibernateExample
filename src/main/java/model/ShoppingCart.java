@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "shopping_cart")
+@Table(name = "shopping_cart", schema = "public")
 public class ShoppingCart extends AbstractIdentifiableObject {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @Column(name = "user_id")
-    private Long userId;
+//    @JoinColumn(name = "user_id")
+//    private Long userId;
     @Column(name = "created_date")
     private Date createdDate;
 
@@ -26,13 +26,13 @@ public class ShoppingCart extends AbstractIdentifiableObject {
         this.user = user;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
+//    public Long getUserId() {
+//        return userId;
+//    }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
 
     public Date getCreatedDate() {
         return createdDate;
@@ -42,13 +42,13 @@ public class ShoppingCart extends AbstractIdentifiableObject {
         this.createdDate = createdDate;
     }
 
-    @Override
-    public String toString() {
-        return "ShoppingCart{" +
-                "user=" + user +
-                ", userId=" + userId +
-                ", createdDate=" + createdDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "ShoppingCart{" +
+//                "user=" + user +
+//                ", userId=" + userId +
+//                ", createdDate=" + createdDate +
+//                '}';
+//    }
 
 }

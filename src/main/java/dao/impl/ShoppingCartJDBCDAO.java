@@ -20,7 +20,7 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
         List<ShoppingCart> list = new ArrayList<>();
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM shopping_cart")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM public.shopping_cart")) {
             list = ShoppingCartFactory.getInstance().createVOShoppingCartList(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -33,9 +33,9 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
         Long id = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO shopping_cart (user_id, created_date) VALUES(?,?)",
+                     connection.prepareStatement("INSERT INTO public.shopping_cart (user_id, created_date) VALUES(?,?)",
                              PreparedStatement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setLong(1, shoppingCart.getUserId());
+//            preparedStatement.setLong(1, shoppingCart.getUserId());
             preparedStatement.setDate(2, (Date) shoppingCart.getCreatedDate());
             preparedStatement.execute();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -52,7 +52,7 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
         ShoppingCart shoppingCart = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM shopping_cart WHERE id = ?")) {
+                     connection.prepareStatement("SELECT * FROM public.shopping_cart WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             shoppingCart = ShoppingCartFactory.getInstance().
                     createShoppingCartVO(preparedStatement.executeQuery());
@@ -66,8 +66,8 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
     public void updateShoppingCart(ShoppingCart shoppingCart) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("UPDATE shopping_cart SET user_id = ?, created_date = ? WHERE id = ?")) {
-            preparedStatement.setLong(1, shoppingCart.getUserId());
+                     connection.prepareStatement("UPDATE public.shopping_cart SET user_id = ?, created_date = ? WHERE id = ?")) {
+//            preparedStatement.setLong(1, shoppingCart.getUserId());
             preparedStatement.setDate(2, (Date) shoppingCart.getCreatedDate());
             preparedStatement.setLong(3, shoppingCart.getId());
             preparedStatement.execute();
@@ -79,7 +79,7 @@ public class ShoppingCartJDBCDAO implements ShoppingCartDAO {
     @Override
     public void deleteShoppingCartById(Long id) {
         try (Connection connection = new JDBC().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM shopping_cart WHERE id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM public.shopping_cart WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

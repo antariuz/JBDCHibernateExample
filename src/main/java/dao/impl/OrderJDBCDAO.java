@@ -20,7 +20,7 @@ public class OrderJDBCDAO implements OrderDAO {
         List<Order> list = new ArrayList<>();
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM order")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM public.order")) {
             list = OrderFactory.getInstance().createVOOrderList(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -34,7 +34,7 @@ public class OrderJDBCDAO implements OrderDAO {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(
-                             "INSERT INTO order (user_id, shopping_cart_id, created_date, status) VALUES(?,?,?,?)",
+                             "INSERT INTO public.order (user_id, shopping_cart_id, created_date, status) VALUES(?,?,?,?)",
                              PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, order.getUserId());
             preparedStatement.setLong(2, order.getShoppingCartId());
@@ -55,7 +55,7 @@ public class OrderJDBCDAO implements OrderDAO {
         Order order = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM order WHERE id = ?")) {
+                     connection.prepareStatement("SELECT * FROM public.order WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             order = OrderFactory.getInstance().
                     createOrderVO(preparedStatement.executeQuery());
@@ -70,7 +70,7 @@ public class OrderJDBCDAO implements OrderDAO {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(
-                             "UPDATE order SET user_id = ?, shopping_cart_id = ?, created_date = ?, status = ?" +
+                             "UPDATE public.order SET user_id = ?, shopping_cart_id = ?, created_date = ?, status = ?" +
                                      "WHERE id = ?")) {
             preparedStatement.setLong(1, order.getUserId());
             preparedStatement.setLong(2, order.getShoppingCartId());
@@ -85,7 +85,7 @@ public class OrderJDBCDAO implements OrderDAO {
     @Override
     public void deleteOrderById(Long id) {
         try (Connection connection = new JDBC().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM order WHERE id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM public.order WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

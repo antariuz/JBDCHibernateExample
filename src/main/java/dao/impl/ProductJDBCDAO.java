@@ -20,7 +20,7 @@ public class ProductJDBCDAO implements ProductDAO {
         List<Product> list = new ArrayList<>();
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM product")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM public.product")) {
             list = ProductFactory.getInstance().createVOProductList(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -33,7 +33,7 @@ public class ProductJDBCDAO implements ProductDAO {
         Long id = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO product (name, price) VALUES(?,?)",
+                     connection.prepareStatement("INSERT INTO public.product (name, price) VALUES(?,?)",
                              PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
@@ -52,7 +52,7 @@ public class ProductJDBCDAO implements ProductDAO {
         Product product = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM product WHERE id = ?")) {
+                     connection.prepareStatement("SELECT * FROM public.product WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             product = ProductFactory.getInstance().createProductVO(preparedStatement.executeQuery());
         } catch (SQLException e) {
@@ -65,7 +65,7 @@ public class ProductJDBCDAO implements ProductDAO {
     public void updateProduct(Product product) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("UPDATE product SET name = ?, price = ? WHERE id = ?")) {
+                     connection.prepareStatement("UPDATE public.product SET name = ?, price = ? WHERE id = ?")) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
             preparedStatement.setLong(4, product.getId());
@@ -79,7 +79,7 @@ public class ProductJDBCDAO implements ProductDAO {
     public void deleteProductById(Long id) {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM product WHERE id = ?")) {
+                     connection.prepareStatement("DELETE FROM public.product WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

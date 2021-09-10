@@ -20,7 +20,7 @@ public class CartItemJDBCDAO implements CartItemDAO {
         List<CartItem> list = new ArrayList<>();
         try (Connection connection = new JDBC().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM cart_item")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM public.cart_item")) {
             list = CartItemFactory.getInstance().createVOCartItemList(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -34,7 +34,7 @@ public class CartItemJDBCDAO implements CartItemDAO {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(
-                             "INSERT INTO cart_item (quantity, shopping_cart_id, product_id, created_date) VALUES(?,?,?,?)",
+                             "INSERT INTO public.cart_item (quantity, shopping_cart_id, product_id, created_date) VALUES(?,?,?,?)",
                              PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, cartItem.getQuantity());
             preparedStatement.setLong(2, cartItem.getShoppingCartId());
@@ -55,7 +55,7 @@ public class CartItemJDBCDAO implements CartItemDAO {
         CartItem cartItem = null;
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM cart_item WHERE id = ?")) {
+                     connection.prepareStatement("SELECT * FROM public.cart_item WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             cartItem = CartItemFactory.getInstance().
                     createCartItemVO(preparedStatement.executeQuery());
@@ -70,7 +70,7 @@ public class CartItemJDBCDAO implements CartItemDAO {
         try (Connection connection = new JDBC().getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(
-                             "UPDATE cart_item SET quantity = ?, shopping_cart_id = ?, product_id = ?, created_date = ? WHERE id = ?")) {
+                             "UPDATE public.cart_item SET quantity = ?, shopping_cart_id = ?, product_id = ?, created_date = ? WHERE id = ?")) {
             preparedStatement.setInt(1, cartItem.getQuantity());
             preparedStatement.setLong(2, cartItem.getShoppingCartId());
             preparedStatement.setLong(3, cartItem.getProductId());
@@ -84,7 +84,7 @@ public class CartItemJDBCDAO implements CartItemDAO {
     @Override
     public void deleteCartItemById(Long id) {
         try (Connection connection = new JDBC().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM cart_item WHERE id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM public.cart_item WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
