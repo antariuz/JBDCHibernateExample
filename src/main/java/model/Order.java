@@ -11,12 +11,12 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @JoinColumn(name = "user_id")
-    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
     @Column(name = "user_id")
     private Long userId;
-    @JoinColumn(name = "shopping_cart_id")
+    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private ShoppingCart shoppingCart;
     @Column(name = "shopping_cart_id")
@@ -24,6 +24,7 @@ public class Order {
     @Column(name = "created_date")
     private Date createdDate;
     @Column
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public enum Status{

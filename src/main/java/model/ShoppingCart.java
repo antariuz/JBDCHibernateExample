@@ -7,11 +7,11 @@ import java.util.Date;
 @Table(name = "shopping_cart", schema = "public")
 public class ShoppingCart extends AbstractIdentifiableObject {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
-//    @JoinColumn(name = "user_id")
-//    private Long userId;
+    @Column(name = "user_id")
+    private Long userId;
     @Column(name = "created_date")
     private Date createdDate;
 

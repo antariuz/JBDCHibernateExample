@@ -38,11 +38,11 @@ public class Servlet extends HttpServlet {
             JSON<Order> jsonOrder = new JSON<>();
             JSON<CartItem> jsonCartItem = new JSON<>();
             resp.setContentType("text/html");
-//            printWriter.write("User: " + jsonUser.toJSON(userService.getAllUser()) + "<p>");
+            printWriter.write("User: " + jsonUser.toJSON(userService.getAllUser()) + "<p>");
             printWriter.write("Shopping cart: " + jsonShoppingCart.toJSON(shoppingCartService.getAllShoppingCart()) + "<p>");
-//            printWriter.write("Product: " + jsonProduct.toJSON(productService.getAllProduct()) + "<p>");
-//            printWriter.write("Order: " + jsonOrder.toJSON(orderService.getAllOrder()) + "<p>");
-//            printWriter.write("Cart item: " + jsonCartItem.toJSON(cartItemService.getAllCartItem()) + "<p>");
+            printWriter.write("Product: " + jsonProduct.toJSON(productService.getAllProduct()) + "<p>");
+            printWriter.write("Order: " + jsonOrder.toJSON(orderService.getAllOrder()) + "<p>");
+            printWriter.write("Cart item: " + jsonCartItem.toJSON(cartItemService.getAllCartItem()) + "<p>");
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }

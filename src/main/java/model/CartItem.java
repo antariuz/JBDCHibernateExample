@@ -13,13 +13,13 @@ public class CartItem {
     private Long id;
     @Column
     private Integer quantity;
-    @JoinColumn(name = "shopping_cart_id")
-    @ManyToOne
+    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     private ShoppingCart shoppingCart;
     @Column(name = "shopping_cart_id")
     private Long shoppingCartId;
-    @JoinColumn(name = "product_id")
-    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
     @Column(name = "product_id")
     private Long productId;
